@@ -1,0 +1,166 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --font-heading: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-body: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    font-family: var(--font-body);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  html,
+  body {
+    width: 100%;
+    min-height: 100%;
+    margin: 0;
+  }
+
+  body {
+    padding: 12px;
+    box-sizing: border-box;
+    background-color: #2b2e33;
+    background-image: 
+      radial-gradient(ellipse at 50% 0%, rgba(255, 255, 255, 0.08) 0%, rgba(0, 0, 0, 0.45) 100%),
+      url("data:image/svg+xml,%3Csvg viewBox='0 0 240 240' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.08'/%3E%3C/svg%3E");
+    background-attachment: fixed;
+    color: #1e293b;
+  }
+
+  @media (min-width: 640px) {
+    body {
+      padding: 16px;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    body {
+      padding: 20px;
+    }
+  }
+}
+
+.portfolio-shell {
+  width: 100%;
+  min-height: calc(100vh - 40px);
+  box-sizing: border-box;
+  background-color: #FFFEFA;
+}
+
+.font-heading {
+  font-family: var(--font-heading);
+}
+
+.hero-surface {
+  background: linear-gradient(135deg, #dce6f2 0%, #e2ebf7 50%, #edf3fc 100%);
+  box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.8);
+}
+
+.card-surface {
+  box-shadow: 0 15px 35px -10px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.6);
+}
+
+.card-dark-surface {
+  box-shadow: 0 15px 35px -10px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+.services-surface {
+  background: linear-gradient(135deg, #d8e4f1 0%, #e2ebf7 60%, #eaf0f9 100%);
+  box-shadow: 0 15px 35px -10px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.8);
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #3e4145;
+}
+::-webkit-scrollbar-thumb {
+  background: #6c7075;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #8b9096;
+}
+
+/* Continuous Technology Ticker */
+@keyframes tickerSlide {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-ticker {
+  animation: tickerSlide 26s linear infinite;
+  will-change: transform;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-ticker {
+    animation: none !important;
+    transform: none !important;
+  }
+}
+
+/* Dynamic skill cards subtle 3D entrance */
+@keyframes skillCard3DEnter {
+  0% {
+    opacity: 0;
+    transform: perspective(800px) translateY(14px) scale(0.94);
+  }
+  100% {
+    opacity: 1;
+    transform: perspective(800px) translateY(0) scale(1);
+  }
+}
+
+.animate-skill-3d-enter {
+  animation: skillCard3DEnter 0.32s cubic-bezier(0.16, 1, 0.3, 1) both;
+  will-change: transform, opacity;
+}
+
+/* Ambient background drift */
+@keyframes ambientDrift {
+  0%, 100% {
+    transform: translate(0, 0) scale(1);
+  }
+  50% {
+    transform: translate(-10px, 8px) scale(1.04);
+  }
+}
+
+.animate-ambient-drift {
+  animation: ambientDrift 14s ease-in-out infinite;
+  will-change: transform;
+}
+
+/* 3D Transform Utilities */
+.preserve-3d {
+  transform-style: preserve-3d;
+}
+
+.perspective-800 {
+  perspective: 800px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-skill-3d-enter {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  .animate-ambient-drift {
+    animation: none !important;
+    transform: none !important;
+  }
+}
+
+
