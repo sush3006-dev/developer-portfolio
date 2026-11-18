@@ -8,12 +8,17 @@
  * Strictly preserves all other sections.
  */
 import React, { useState, useRef, useCallback, useEffect } from 'react';
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { projectsData } from '../../data/projects';
 import { ProjectStack, ProjectStackHandle } from './projects/ProjectStack';
 import { ProjectDetails } from './projects/ProjectDetails';
 import { ProjectProgress } from './projects/ProjectProgress';
 import { CharacterVideo } from './projects/CharacterVideo';
+import { useSectionTransition } from '../../hooks/useSectionTransition';
+
+gsap.registerPlugin(ScrollTrigger);
 
 export const Projects: React.FC = () => {
   // Single source of truth for the selected project
@@ -26,6 +31,85 @@ export const Projects: React.FC = () => {
   const selectedProject = selectedProjectId
     ? projectsData.find((p) => p.id === selectedProjectId) ?? null
     : null;
+
+  const sectionRef = useRef<HTMLDivElement>(null);
+  const contentRef = useRef<HTMLDivElement>(null);
+
+  // Premium scroll-driven section transition (incoming entrance & outgoing pinned receding)
+  useSectionTransition(sectionRef, contentRef, {
+    isOutgoingPinned: true,
+    isIncomingAnimated: true,
+    pinDistance: '+=80%',
+  });
+
+  // Smooth, scroll-driven progressive transitions inspired by reference video
+  useEffect(() => {
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const el = sectionRef.current;
+    if (!el) return;
+
+    if (prefersReducedMotion) {
+      gsap.set(
+        ['.projects-header-anim', '.projects-stack-col', '.projects-video-col'],
+        { opacity: 1, y: 0, scale: 1 }
+      );
+      return;
+    }
+
+    const ctx = gsap.context(() => {
+      // 1. Header parallax tracking with scroll
+      gsap.fromTo(
+        '.projects-header-anim',
+        { y: 20 },
+        {
+          y: -15,
+          stagger: 0.04,
+          ease: 'none',
+          scrollTrigger: {
+            trigger: el,
+            start: 'top bottom',
+            end: 'bottom top',
+            scrub: 1.2,
+          },
+        }
+      );
+
+      // 2. Left column: Project card stack continuous scroll depth & parallax
+      gsap.fromTo(
+        '.projects-stack-col',
+        { y: 35, scale: 0.98 },
+        {
+          y: -25,
+          scale: 1.01,
+          ease: 'none',
+          scrollTrigger: {
+            trigger: el,
+            start: 'top bottom',
+            end: 'bottom top',
+            scrub: 1,
+          },
+        }
+      );
+
+      // 3. Continuous parallax drift for ambient lighting
+      gsap.fromTo(
+        '.projects-ambient-orb',
+        { y: -30 },
+        {
+          y: 30,
+          ease: 'none',
+          scrollTrigger: {
+            trigger: el,
+            start: 'top bottom',
+            end: 'bottom top',
+            scrub: 1.2,
+          },
+        }
+      );
+    }, el);
+
+    return () => ctx.revert();
+  }, []);
 
   /* ── Pause auto-advance while details are open ── */
   useEffect(() => {
@@ -55,29 +139,30 @@ export const Projects: React.FC = () => {
 
   return (
     <section
+      ref={sectionRef}
       id="projects"
-      className="w-full min-h-[calc(100vh-40px)] flex flex-col justify-center py-12 lg:py-16 px-6 sm:px-10 lg:px-16 relative overflow-hidden scroll-mt-6 border-b border-slate-100/80 bg-[#FFFEFA]"
+      style={{ perspective: '1200px' }}
+      className="w-full min-h-[calc(100vh-40px)] flex flex-col justify-center py-12 lg:py-16 px-6 sm:px-10 lg:px-16 relative z-[60] overflow-hidden scroll-mt-6 border-b border-slate-100/80 bg-[#FFFEFA]"
     >
-      {/* Backward-compatible anchor */}
+      <div
+        ref={contentRef}
+        className="section-transition-inner w-full flex flex-col justify-center will-change-transform"
+        style={{ transformOrigin: 'center top', transformStyle: 'preserve-3d' }}
+      >
+        {/* Backward-compatible anchor */}
       <span id="works" className="absolute -top-24 pointer-events-none" aria-hidden="true" />
 
-      {/* ── GOLDEN AMBIENT LIGHTING ── */}
+      {/* ── GOLDEN AMBIENT LIGHTING MATCHING ABOUT SECTION ── */}
       <div
-        className="absolute -top-24 -right-24 w-[480px] h-[480px] rounded-full blur-3xl pointer-events-none"
-        style={{
-          background:
-            'radial-gradient(circle at top right, rgba(212,165,0,0.18) 0%, rgba(212,165,0,0.07) 45%, transparent 70%)',
-        }}
+        className="projects-ambient-orb absolute -top-24 -right-24 w-[480px] h-[480px] bg-[radial-gradient(circle_at_top_right,rgba(212,165,0,0.20)_0%,rgba(212,165,0,0.08)_45%,transparent_70%)] rounded-full blur-3xl pointer-events-none"
         aria-hidden="true"
       />
       <div
-        className="absolute -top-24 -right-24 w-96 h-96 rounded-full blur-3xl pointer-events-none"
-        style={{ background: 'linear-gradient(to bottom-left, rgba(251,191,36,0.14), rgba(255,237,213,0.06), transparent)' }}
+        className="projects-ambient-orb absolute -top-24 -right-24 w-96 h-96 bg-gradient-to-bl from-amber-100/35 via-orange-50/10 to-transparent rounded-full blur-3xl pointer-events-none"
         aria-hidden="true"
       />
       <div
-        className="absolute -bottom-28 -left-24 w-96 h-96 rounded-full blur-3xl pointer-events-none"
-        style={{ background: 'linear-gradient(to top-right, rgba(226,232,240,0.5), rgba(240,249,255,0.15), transparent)' }}
+        className="projects-ambient-orb absolute -bottom-28 -left-24 w-96 h-96 bg-gradient-to-tr from-slate-100/60 via-sky-50/20 to-transparent rounded-full blur-3xl pointer-events-none"
         aria-hidden="true"
       />
 
@@ -85,20 +170,19 @@ export const Projects: React.FC = () => {
 
       {/* ── SECTION HEADER ── */}
       <div className="relative z-10 w-full flex flex-col items-start text-left max-w-2xl">
-        <div className="flex items-center gap-2 mb-2">
+        <div className="projects-header-anim flex items-center gap-2 mb-2.5">
           <span
-            className="w-1.5 h-1.5 rounded-full bg-[#D4A500]"
-            style={{ boxShadow: '0 0 8px rgba(212,165,0,0.45)' }}
+            className="w-1.5 h-1.5 rounded-full bg-[#D4A500] shadow-[0_0_8px_rgba(212,165,0,0.45)] shrink-0"
             aria-hidden="true"
           />
           <span className="text-[11px] font-bold tracking-widest text-slate-500 uppercase font-mono">
             MY WORK
           </span>
         </div>
-        <h2 className="font-heading text-2xl sm:text-3xl lg:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight">
+        <h2 className="projects-header-anim font-heading text-2xl sm:text-3xl lg:text-[34px] font-extrabold text-[#07163F] tracking-tight leading-[1.2]">
           Ideas Into <span className="text-slate-700">Reality.</span>
         </h2>
-        <p className="mt-2 text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+        <p className="projects-header-anim mt-2 text-xs sm:text-[13px] md:text-sm lg:text-[15px] text-slate-600 leading-relaxed font-normal">
           A collection of projects, experiments and solutions I've explored through technology,
           engineering and problem-solving.
         </p>
@@ -108,7 +192,7 @@ export const Projects: React.FC = () => {
       <div className="relative z-10 w-full grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-start">
 
         {/* ── LEFT: Card Stack + Progress + Details ── */}
-        <div className="lg:col-span-7 flex flex-col items-start w-full">
+        <div className="projects-stack-col lg:col-span-7 flex flex-col items-start w-full">
 
           {/* Stack + prev/next row */}
           <div className="w-full flex flex-col items-start gap-5">
@@ -131,7 +215,7 @@ export const Projects: React.FC = () => {
                 type="button"
                 onClick={() => { stackRef.current?.advance('prev'); }}
                 aria-label="Previous project"
-                className="p-2 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 text-slate-600 hover:text-slate-900 transition-colors shadow-sm cursor-pointer shrink-0"
+                className="p-2 rounded-xl border border-slate-200/80 bg-white hover:bg-white text-slate-700 hover:text-[#07163F] hover:border-[#D4A500] hover:shadow-[0_4px_12px_rgba(212,165,0,0.12)] transition-all duration-200 shadow-sm cursor-pointer shrink-0"
               >
                 <ChevronLeft className="w-4 h-4" />
               </button>
@@ -150,7 +234,7 @@ export const Projects: React.FC = () => {
                 type="button"
                 onClick={() => { stackRef.current?.advance('next'); }}
                 aria-label="Next project"
-                className="p-2 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 text-slate-600 hover:text-slate-900 transition-colors shadow-sm cursor-pointer shrink-0"
+                className="p-2 rounded-xl border border-slate-200/80 bg-white hover:bg-white text-slate-700 hover:text-[#07163F] hover:border-[#D4A500] hover:shadow-[0_4px_12px_rgba(212,165,0,0.12)] transition-all duration-200 shadow-sm cursor-pointer shrink-0"
               >
                 <ChevronRight className="w-4 h-4" />
               </button>
@@ -171,10 +255,11 @@ export const Projects: React.FC = () => {
         </div>
 
         {/* ── RIGHT: Character — no box, composited naturally over the section bg ── */}
-        <div className="lg:col-span-5 flex flex-col items-center justify-end w-full lg:sticky lg:top-20 lg:self-end">
+        <div className="projects-video-col lg:col-span-5 flex flex-col items-center justify-end w-full lg:sticky lg:top-20 lg:self-end">
           <CharacterVideo />
         </div>
 
+      </div>
       </div>
       </div>
     </section>

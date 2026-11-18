@@ -5,6 +5,7 @@
  */
 
 import React, { useState, useEffect } from 'react';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Hero } from './components/sections/Hero';
 import { About } from './components/sections/About';
 import { Experience } from './components/sections/Experience';
@@ -16,8 +17,12 @@ import { Contact } from './components/sections/Contact';
 export default function App() {
   const [activeSection, setActiveSection] = useState('home');
 
-  // IntersectionObserver for active section highlighting
+  // IntersectionObserver for active section highlighting & ScrollTrigger layout sync
   useEffect(() => {
+    const handleRefresh = () => ScrollTrigger.refresh();
+    window.addEventListener('load', handleRefresh);
+    const timeout = setTimeout(handleRefresh, 500);
+
     const sectionIds = ['home', 'about', 'experience', 'skills', 'education', 'projects', 'contact'];
     const handleScroll = () => {
       const scrollY = window.scrollY + 160;
@@ -35,7 +40,11 @@ export default function App() {
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('load', handleRefresh);
+      clearTimeout(timeout);
+    };
   }, []);
 
   return (

@@ -6,7 +6,6 @@ import {
   Lightbulb,
   TrendingUp,
   CheckCircle2,
-  Sparkles,
   ArrowRight,
 } from 'lucide-react';
 import { EXPERIENCE_ITEMS, ExperienceCardItem } from '../../data/experienceData';
@@ -226,7 +225,7 @@ export const Experience: React.FC = () => {
     <section
       ref={sectionRef}
       id="experience"
-      className="w-full min-h-[calc(100vh-40px)] flex flex-col justify-center py-12 lg:py-16 px-6 sm:px-10 lg:px-16 relative overflow-hidden scroll-mt-6 border-b border-slate-100/80 bg-[#FFFEFA] select-none"
+      className="w-full min-h-[calc(100vh-40px)] flex flex-col justify-center py-10 sm:py-12 lg:py-14 px-6 sm:px-10 lg:px-16 relative z-[30] overflow-hidden scroll-mt-6 border-b border-slate-100/80 bg-[#FFFEFA] select-none"
     >
       {/* Subtle ambient lighting orbs matching About & Skills palette */}
       <div
@@ -553,22 +552,6 @@ export const Experience: React.FC = () => {
       <div className="flex md:hidden items-center justify-center gap-1.5 text-[11px] font-mono text-slate-400 mt-2">
         <span>Tap milestones or swipe along the curve</span>
         <ArrowRight className="w-3 h-3 text-slate-400 animate-pulse" />
-      </div>
-
-      {/* Bottom Roadmap Subtitle / Summary Note */}
-      <div className="w-full pt-4 mt-2 border-t border-slate-100/90 flex flex-col sm:flex-row items-center justify-between gap-2 text-[11px] font-mono text-slate-400">
-        <div className="flex items-center gap-2">
-          <span className="w-1.5 h-1.5 rounded-full bg-amber-400" />
-          <span className="text-slate-600 font-medium">
-            Interactive Continuous Roadmap
-          </span>
-          <span>·</span>
-          <span>4 Progressive Stages</span>
-        </div>
-        <div className="flex items-center gap-1.5 text-slate-500">
-          <Sparkles className="w-3 h-3 text-amber-500" />
-          <span>Hover or tap to reveal verified milestones</span>
-        </div>
       </div>
       </div>
     </section>

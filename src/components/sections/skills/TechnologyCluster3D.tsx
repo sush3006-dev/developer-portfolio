@@ -580,13 +580,13 @@ export const TechnologyCluster3D: React.FC<TechnologyCluster3DProps> = ({ catego
         }`}
       >
         {hoveredSkill && (
-          <div className="flex items-center gap-2.5 px-4 py-2 rounded-full bg-white/95 backdrop-blur-md border border-amber-300/80 shadow-lg shadow-amber-900/5">
-            <span className="w-2 h-2 rounded-full bg-amber-500 animate-pulse" />
-            <span className="text-sm font-bold text-slate-900">{hoveredSkill.name}</span>
+          <div className="flex items-center gap-2.5 px-4 py-2 rounded-full bg-white/95 backdrop-blur-md border border-[#D4A500] shadow-[0_8px_20px_-4px_rgba(212,165,0,0.15)]">
+            <span className="w-2 h-2 rounded-full bg-[#D4A500] animate-pulse" />
+            <span className="text-sm font-bold text-[#07163F] font-heading">{hoveredSkill.name}</span>
             {hoveredSkill.tag && (
               <>
                 <span className="w-1 h-1 rounded-full bg-slate-300" />
-                <span className="text-xs font-mono font-semibold text-amber-700">
+                <span className="text-xs font-mono font-semibold text-amber-800">
                   {hoveredSkill.tag}
                 </span>
               </>

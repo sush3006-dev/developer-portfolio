@@ -8,11 +8,17 @@ export const AcademicBackground: React.FC = () => {
       {/* Component Header */}
       <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-2 mb-6 sm:mb-8 pb-3 border-b border-slate-100/90">
         <div>
-          <span className="text-[11px] font-mono font-bold tracking-widest text-amber-600 uppercase block mb-1">
-            01 — Academic Background
-          </span>
-          <h3 className="text-xl sm:text-2xl font-bold text-slate-900 tracking-tight">
-            Building the foundation<span className="text-amber-500">.</span>
+          <div className="flex items-center gap-2 mb-1.5">
+            <span
+              className="w-1.5 h-1.5 rounded-full bg-[#D4A500] shadow-[0_0_8px_rgba(212,165,0,0.45)] shrink-0"
+              aria-hidden="true"
+            />
+            <span className="text-[11px] font-mono font-bold tracking-widest text-slate-500 uppercase">
+              01 — ACADEMIC BACKGROUND
+            </span>
+          </div>
+          <h3 className="font-heading text-xl sm:text-2xl font-bold text-[#07163F] tracking-tight">
+            Building the foundation<span className="text-[#D4A500]">.</span>
           </h3>
         </div>
         <span className="text-xs font-mono text-slate-400">
@@ -28,15 +34,15 @@ export const AcademicBackground: React.FC = () => {
           return (
             <div
               key={item.id}
-              className={`group relative rounded-2xl sm:rounded-3xl p-6 sm:p-7 flex flex-col justify-between transition-all duration-300 ease-out border ${
+              className={`edu-academic-card group relative rounded-2xl sm:rounded-3xl p-6 sm:p-7 flex flex-col justify-between transition-all duration-300 ease-out border ${
                 isCurrent
-                  ? 'bg-gradient-to-br from-white via-amber-50/20 to-white border-amber-300/80 shadow-md shadow-amber-900/5 ring-1 ring-amber-400/20 hover:shadow-xl hover:border-amber-400'
-                  : 'bg-white hover:bg-slate-50/80 border-slate-200/70 hover:border-slate-300/90 shadow-xs hover:shadow-lg'
+                  ? 'bg-white hover:bg-white border-[#D4A500] ring-1 ring-[#D4A500]/30 shadow-[0_4px_16px_rgba(212,165,0,0.08)] hover:shadow-[0_8px_24px_-4px_rgba(212,165,0,0.16)]'
+                  : 'bg-slate-50/85 hover:bg-white border-slate-200/80 hover:border-[#D4A500] shadow-[0_1px_3px_rgba(15,23,42,0.03)] hover:shadow-[0_8px_20px_-4px_rgba(212,165,0,0.12),0_4px_8px_-2px_rgba(15,23,42,0.04)]'
               } hover:-translate-y-1`}
             >
               {/* Top Accent Pill for Active Degree */}
               {isCurrent && (
-                <div className="absolute top-0 right-7 -translate-y-1/2 flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-gradient-to-r from-amber-400 to-amber-500 text-slate-950 font-mono text-[10px] font-extrabold tracking-wide shadow-sm">
+                <div className="absolute top-0 right-7 -translate-y-1/2 flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-[#D4A500] text-[#07163F] font-mono text-[10px] font-extrabold tracking-wide shadow-sm">
                   <Sparkles className="w-3 h-3 animate-spin-slow" />
                   <span>ACTIVE PROGRAM</span>
                 </div>
@@ -47,10 +53,10 @@ export const AcademicBackground: React.FC = () => {
                 <div className="flex items-start justify-between gap-3 mb-4">
                   <div className="flex items-center gap-3">
                     <div
-                      className={`w-11 h-11 rounded-2xl flex items-center justify-center transition-all duration-300 ${
+                      className={`w-11 h-11 rounded-2xl flex items-center justify-center transition-all duration-300 border ${
                         isCurrent
-                          ? 'bg-amber-100/80 text-amber-700 ring-2 ring-amber-400/30 group-hover:scale-105'
-                          : 'bg-slate-100 text-slate-600 group-hover:bg-slate-200/80 group-hover:scale-105'
+                          ? 'bg-amber-50/90 text-[#D4A500] border-[#D4A500]/40 shadow-[0_0_12px_rgba(212,165,0,0.2)] group-hover:scale-105'
+                          : 'bg-white group-hover:bg-amber-50/90 border-slate-200/70 group-hover:border-[#D4A500]/40 text-slate-700 group-hover:text-[#D4A500] shadow-sm group-hover:shadow-[0_0_12px_rgba(212,165,0,0.22)] group-hover:scale-105'
                       }`}
                     >
                       {isCurrent ? (
@@ -63,7 +69,7 @@ export const AcademicBackground: React.FC = () => {
                       <span className="text-[11px] font-mono font-semibold uppercase tracking-wider text-slate-400 block">
                         {isCurrent ? "BACHELOR'S DEGREE" : 'DIPLOMA DEGREE'}
                       </span>
-                      <h4 className="text-base sm:text-lg font-bold text-slate-900 leading-snug tracking-tight">
+                      <h4 className="font-heading text-base sm:text-lg font-bold text-[#07163F] leading-snug tracking-tight">
                         {item.degree}
                       </h4>
                     </div>
@@ -94,7 +100,7 @@ export const AcademicBackground: React.FC = () => {
                       <div key={idx} className="flex items-center gap-2 text-xs text-slate-700">
                         <CheckCircle2
                           className={`w-3.5 h-3.5 flex-shrink-0 ${
-                            isCurrent ? 'text-amber-500' : 'text-slate-400'
+                            isCurrent ? 'text-[#D4A500]' : 'text-slate-400 group-hover:text-[#D4A500]'
                           }`}
                         />
                         <span>{hl}</span>
@@ -109,7 +115,7 @@ export const AcademicBackground: React.FC = () => {
                 <div className="flex items-center gap-2">
                   <span
                     className={`w-2 h-2 rounded-full ${
-                      isCurrent ? 'bg-amber-500 animate-pulse' : 'bg-emerald-500'
+                      isCurrent ? 'bg-[#D4A500] animate-pulse' : 'bg-emerald-500'
                     }`}
                   />
                   <span className="font-mono font-semibold text-slate-700">

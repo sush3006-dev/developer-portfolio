@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 import { Download } from 'lucide-react';
 import { Navbar } from '../layout/Navbar';
-import { HeroFrameAnimation } from '../media/HeroFrameAnimation';
+import { useHeroAudio } from '../../hooks/useHeroAudio';
 import { portfolioData } from '../../data/portfolio';
 
 interface HeroProps {
@@ -12,6 +12,10 @@ interface HeroProps {
 export const Hero: React.FC<HeroProps> = ({ activeSection = 'home' }) => {
   const { developer } = portfolioData;
   const heroRef = useRef<HTMLDivElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  // Synchronized Hero Video & 3-Layer Cinematic Background Audio
+  useHeroAudio({ heroRef, videoRef });
 
   // GSAP Entrance Animations for Hero Elements
   useEffect(() => {
@@ -65,16 +69,23 @@ export const Hero: React.FC<HeroProps> = ({ activeSection = 'home' }) => {
     <section
       id="home"
       ref={heroRef}
-      className="relative w-full min-h-[calc(100vh-40px)] hero-surface overflow-hidden flex flex-col justify-between p-4 sm:p-6 lg:p-10 transition-all duration-300 border-b border-slate-200/50"
+      className="relative z-[10] w-full min-h-[calc(100vh-40px)] hero-surface overflow-hidden flex flex-col justify-between p-4 sm:p-6 lg:p-10 transition-all duration-300 border-b border-slate-200/50"
     >
       {/* =========================================================================
-          LAYER 1: Full-Screen 299-Frame Canvas Character Animation (30 FPS)
+          LAYER 1: Full-Screen Character Video (Preserves Character Dimensions, Alignment & Ratio)
           ========================================================================= */}
-        <HeroFrameAnimation
-          totalFrames={299}
-          fps={30}
-          frameDir="/frames"
+      <div className="absolute inset-0 w-full h-full overflow-hidden pointer-events-none select-none z-0 bg-[#8b9e9f]" aria-hidden="true">
+        <video
+          ref={videoRef}
+          src="/hero.mp4"
+          loop
+          muted
+          playsInline
+          preload="auto"
+          aria-label="Hero character animation"
+          className="w-full h-full object-cover object-[50%_35%] lg:object-[52%_35%] pointer-events-none select-none block"
         />
+      </div>
 
         {/* =========================================================================
             LAYER 2: Cinematic Scrims & Contrast Balancing Overlays
@@ -173,7 +184,7 @@ export const Hero: React.FC<HeroProps> = ({ activeSection = 'home' }) => {
           </div>
 
           {/* Right Column (lg:col-span-5): Availability Indicator */}
-          <div className="hero-right-side lg:col-span-5 flex flex-col sm:flex-row lg:flex-col items-start lg:items-end justify-center z-20">
+          <div className="hero-right-side lg:col-span-5 flex flex-wrap sm:flex-row lg:flex-col items-start lg:items-end justify-center z-20 gap-2.5 sm:gap-3">
             {/* Availability Indicator */}
             <div className="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-white/75 backdrop-blur-md border border-white/80 shadow-[0_4px_16px_rgba(0,0,0,0.04)]">
               <span className="relative flex h-2 w-2">

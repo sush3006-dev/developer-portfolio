@@ -71,10 +71,10 @@ export const CertificateLibraryModal: React.FC<CertificateLibraryModalProps> = (
               <ArrowLeft className="w-5 h-5" />
             </button>
             <div>
-              <span className="text-[10px] font-mono font-bold tracking-widest text-amber-600 uppercase block">
+              <span className="text-[10px] font-mono font-bold tracking-widest text-[#D4A500] uppercase block">
                 CREDENTIAL EXPLORER
               </span>
-              <h3 className="text-lg sm:text-xl font-bold text-slate-900 tracking-tight">
+              <h3 className="font-heading text-lg sm:text-xl font-extrabold text-[#07163F] tracking-tight">
                 Certificate Library
               </h3>
             </div>
@@ -119,10 +119,10 @@ export const CertificateLibraryModal: React.FC<CertificateLibraryModalProps> = (
                 <button
                   key={cat}
                   onClick={() => setSelectedCategory(cat)}
-                  className={`px-3 py-1.5 rounded-full text-xs font-medium whitespace-nowrap transition-all duration-200 cursor-pointer ${
+                  className={`px-3 py-1.5 rounded-full text-xs font-medium whitespace-nowrap transition-all duration-200 cursor-pointer border ${
                     isSelected
-                      ? 'bg-slate-900 text-white font-bold shadow-sm'
-                      : 'bg-slate-100/80 hover:bg-slate-200 text-slate-600 hover:text-slate-900'
+                      ? 'bg-[#07163F] text-white font-bold shadow-sm border-[#07163F]'
+                      : 'bg-slate-100 hover:bg-white text-slate-600 hover:text-[#07163F] border-slate-200/80 hover:border-[#D4A500]'
                   }`}
                 >
                   {cat === 'All' ? 'All Certificates' : cat}
@@ -149,7 +149,7 @@ export const CertificateLibraryModal: React.FC<CertificateLibraryModalProps> = (
                 return (
                   <div
                     key={cert.id}
-                    className="rounded-2xl p-5 border border-slate-200/80 bg-white hover:border-amber-300 transition-all duration-300 shadow-xs hover:shadow-lg flex flex-col justify-between"
+                    className="rounded-2xl p-5 border border-slate-200/80 bg-slate-50/85 hover:bg-white hover:border-[#D4A500] transition-all duration-300 shadow-[0_1px_3px_rgba(15,23,42,0.03)] hover:shadow-[0_8px_20px_-4px_rgba(212,165,0,0.12),0_4px_8px_-2px_rgba(15,23,42,0.04)] hover:-translate-y-0.5 flex flex-col justify-between"
                   >
                     <div>
                       {/* Status & Category */}
@@ -157,8 +157,8 @@ export const CertificateLibraryModal: React.FC<CertificateLibraryModalProps> = (
                         <span
                           className={`px-2 py-0.5 rounded-full font-bold border ${
                             isInProgress
-                              ? 'bg-amber-50 text-amber-900 border-amber-200'
-                              : 'bg-emerald-50 text-emerald-800 border-emerald-200'
+                              ? 'bg-amber-50 text-amber-900 border-amber-200/70'
+                              : 'bg-emerald-50 text-emerald-800 border-emerald-200/80'
                           }`}
                         >
                           {isInProgress ? 'IN PREPARATION' : 'VERIFIED'}
@@ -169,7 +169,7 @@ export const CertificateLibraryModal: React.FC<CertificateLibraryModalProps> = (
                       </div>
 
                       {/* Title & Issuer */}
-                      <h4 className="text-sm sm:text-base font-bold text-slate-900 leading-snug mb-1">
+                      <h4 className="font-heading text-sm sm:text-base font-bold text-[#07163F] leading-snug mb-1">
                         {cert.title}
                       </h4>
                       <p className="text-xs text-slate-500 font-medium mb-3">
@@ -189,7 +189,7 @@ export const CertificateLibraryModal: React.FC<CertificateLibraryModalProps> = (
                           {cert.skills.map((s, idx) => (
                             <span
                               key={idx}
-                              className="px-2 py-0.5 rounded bg-slate-100 text-slate-600 text-[10px] font-medium"
+                              className="px-2 py-0.5 rounded bg-slate-100 text-slate-600 text-[10px] font-medium border border-slate-200/60"
                             >
                               {s}
                             </span>
@@ -209,7 +209,7 @@ export const CertificateLibraryModal: React.FC<CertificateLibraryModalProps> = (
                           href={cert.credentialUrl}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="flex items-center gap-1 text-amber-700 hover:text-amber-900 font-bold"
+                          className="flex items-center gap-1 text-[#07163F] hover:text-[#D4A500] font-bold transition-colors"
                         >
                           <span>Credential</span>
                           <ExternalLink className="w-3 h-3" />
@@ -232,7 +232,7 @@ export const CertificateLibraryModal: React.FC<CertificateLibraryModalProps> = (
           <span>Showing {displayedCertificates.length} credentials</span>
           <button
             onClick={onClose}
-            className="px-4 py-2 rounded-xl bg-slate-200/80 hover:bg-slate-300 text-slate-800 font-semibold cursor-pointer transition-colors"
+            className="px-4 py-2 rounded-xl bg-[#07163F] hover:bg-slate-900 text-white font-semibold cursor-pointer transition-colors"
           >
             Return to Carousel
           </button>

@@ -37,19 +37,19 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
           onClick();
         }
       }}
-      className={`absolute inset-0 w-full rounded-2xl sm:rounded-3xl bg-white border cursor-pointer select-none overflow-hidden transition-all duration-400 ease-[cubic-bezier(0.2,0.8,0.2,1)] ${
+      className={`absolute inset-0 w-full rounded-2xl sm:rounded-3xl border cursor-pointer select-none overflow-hidden transition-all duration-400 ease-[cubic-bezier(0.2,0.8,0.2,1)] ${
         isActive
-          ? 'border-[#D4A500] shadow-[0_20px_40px_-12px_rgba(212,165,0,0.2),0_8px_16px_-4px_rgba(15,23,42,0.06)] ring-1 ring-[#D4A500]/40'
-          : 'border-slate-200/90 shadow-[0_10px_25px_-5px_rgba(15,23,42,0.06)] hover:border-slate-300'
+          ? 'bg-white border-[#D4A500] shadow-[0_20px_40px_-12px_rgba(212,165,0,0.2),0_8px_16px_-4px_rgba(15,23,42,0.06)] ring-1 ring-[#D4A500]/40'
+          : 'bg-slate-50/85 hover:bg-white border-slate-200/80 hover:border-[#D4A500] shadow-[0_1px_3px_rgba(15,23,42,0.03)] hover:shadow-[0_8px_20px_-4px_rgba(212,165,0,0.12),0_4px_8px_-2px_rgba(15,23,42,0.04)]'
       }`}
     >
-      {/* Background card gradient & subtle texture */}
-      <div className="absolute inset-0 bg-gradient-to-br from-white via-slate-50/70 to-slate-100/50 pointer-events-none" />
+      {/* Background card subtle warm off-white surface */}
+      <div className="absolute inset-0 bg-gradient-to-br from-white/80 via-transparent to-slate-100/30 pointer-events-none" />
 
       {/* Top golden ambient accent on active card */}
       {isActive && (
         <div
-          className="absolute -top-12 -right-12 w-36 h-36 bg-amber-400/15 rounded-full blur-xl pointer-events-none"
+          className="absolute -top-12 -right-12 w-36 h-36 bg-[radial-gradient(circle,rgba(212,165,0,0.20)_0%,transparent_70%)] rounded-full blur-xl pointer-events-none"
           aria-hidden="true"
         />
       )}
@@ -60,10 +60,10 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
         <div className="flex items-center justify-between gap-2">
           <div className="flex items-center gap-2">
             <span
-              className={`px-2 py-0.5 rounded-md text-[11px] font-mono font-bold tracking-wider transition-colors ${
+              className={`px-2 py-0.5 rounded-md text-[11px] font-mono font-bold tracking-wider transition-colors border ${
                 isActive
-                  ? 'bg-[#07163F] text-[#D4A500]'
-                  : 'bg-slate-100 text-slate-700'
+                  ? 'bg-[#07163F] text-[#D4A500] border-[#07163F]'
+                  : 'bg-slate-100 text-slate-700 border-slate-200/60'
               }`}
             >
               #{project.number}
@@ -75,13 +75,13 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
 
           <div className="flex items-center gap-1.5 shrink-0">
             {isPinned ? (
-              <span className="p-1 rounded-full bg-amber-100 text-amber-800" title="Pinned Project">
-                <Pin className="w-3.5 h-3.5 fill-amber-600" />
+              <span className="p-1 rounded-full bg-amber-50 text-amber-900 border border-[#D4A500]/40" title="Pinned Project">
+                <Pin className="w-3.5 h-3.5 fill-[#D4A500]" />
               </span>
             ) : (
               <span
-                className={`p-1 rounded-full transition-transform duration-300 ${
-                  isActive ? 'text-[#D4A500] translate-x-0.5 -translate-y-0.5' : 'text-slate-400'
+                className={`p-1 rounded-full transition-all duration-300 ${
+                  isActive ? 'text-[#D4A500] translate-x-0.5 -translate-y-0.5' : 'text-slate-400 group-hover:text-[#D4A500]'
                 }`}
               >
                 <ArrowUpRight className="w-4 h-4" />
@@ -93,9 +93,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
         {/* Center: Title & Short Abstract */}
         <div className="my-auto py-2">
           <h4
-            className={`font-heading text-base sm:text-lg lg:text-xl font-bold tracking-tight transition-colors line-clamp-1 ${
-              isActive ? 'text-slate-900 drop-shadow-sm' : 'text-slate-800'
-            }`}
+            className="font-heading text-base sm:text-lg lg:text-xl font-bold tracking-tight text-[#07163F] line-clamp-1"
           >
             {project.title}
           </h4>
@@ -110,7 +108,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
             {project.technologies.slice(0, 3).map((tech) => (
               <span
                 key={tech}
-                className="px-2 py-0.5 rounded bg-slate-100/90 text-slate-700 text-[10px] font-mono font-medium"
+                className="px-2 py-0.5 rounded bg-slate-100/90 text-slate-700 text-[10px] font-mono font-medium border border-slate-200/60"
               >
                 {tech}
               </span>
@@ -126,8 +124,8 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
             <span
               className={`text-[10px] font-semibold font-mono tracking-wide px-2 py-0.5 rounded-full ${
                 project.status === 'Completed'
-                  ? 'bg-emerald-50 text-emerald-700 border border-emerald-200/60'
-                  : 'bg-amber-50 text-amber-700 border border-amber-200/60'
+                  ? 'bg-emerald-50 text-emerald-800 border border-emerald-200/80'
+                  : 'bg-amber-50 text-amber-900 border border-amber-200/70'
               }`}
             >
               {project.status}

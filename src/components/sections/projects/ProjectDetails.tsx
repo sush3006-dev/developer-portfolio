@@ -143,7 +143,7 @@ export const ProjectDetails: React.FC<ProjectDetailsProps> = ({ project, onClose
       </div>
 
       {/* Title */}
-      <h3 className="font-heading text-lg sm:text-xl font-extrabold text-slate-900 tracking-tight mb-1">
+      <h3 className="font-heading text-lg sm:text-xl font-extrabold text-[#07163F] tracking-tight mb-1">
         {displayProject.title}
       </h3>
 
@@ -174,7 +174,7 @@ export const ProjectDetails: React.FC<ProjectDetailsProps> = ({ project, onClose
 
       {/* Highlights */}
       {displayProject.highlights && displayProject.highlights.length > 0 && (
-        <div className="mb-4 space-y-1.5 bg-slate-50/80 rounded-xl p-3 border border-slate-100">
+        <div className="mb-4 space-y-1.5 bg-slate-50/85 rounded-xl p-3.5 border border-slate-200/80">
           <div className="text-[10px] font-bold tracking-wider text-slate-500 uppercase font-mono flex items-center gap-1 mb-1">
             <Sparkles className="w-3 h-3" style={{ color: displayProject.accentColor }} />
             Key Highlights
@@ -229,7 +229,7 @@ export const ProjectDetails: React.FC<ProjectDetailsProps> = ({ project, onClose
             target="_blank"
             rel="noopener noreferrer"
             onClick={(e) => e.stopPropagation()}
-            className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-slate-900 hover:bg-[#07163F] text-white text-xs font-semibold shadow-sm transition-all duration-200 cursor-pointer active:scale-[0.98]"
+            className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-[#07163F] hover:bg-slate-900 text-white text-xs font-semibold shadow-sm transition-all duration-200 cursor-pointer active:scale-[0.98]"
           >
             <Github className="w-3.5 h-3.5" />
             <span>Source Repository</span>

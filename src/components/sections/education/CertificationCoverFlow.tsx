@@ -143,11 +143,17 @@ export const CertificationCoverFlow: React.FC<CertificationCoverFlowProps> = ({
       {/* Component Header */}
       <div className="w-full flex flex-col sm:flex-row sm:items-end justify-between gap-2 mb-6 sm:mb-8 pb-3 border-b border-slate-100/90">
         <div>
-          <span className="text-[11px] font-mono font-bold tracking-widest text-amber-600 uppercase block mb-1">
-            02 — Certifications &amp; Credentials
-          </span>
-          <h3 className="text-xl sm:text-2xl font-bold text-slate-900 tracking-tight">
-            Knowledge earned. Skills validated<span className="text-amber-500">.</span>
+          <div className="flex items-center gap-2 mb-1.5">
+            <span
+              className="w-1.5 h-1.5 rounded-full bg-[#D4A500] shadow-[0_0_8px_rgba(212,165,0,0.45)] shrink-0"
+              aria-hidden="true"
+            />
+            <span className="text-[11px] font-mono font-bold tracking-widest text-slate-500 uppercase">
+              02 — CERTIFICATIONS &amp; CREDENTIALS
+            </span>
+          </div>
+          <h3 className="font-heading text-xl sm:text-2xl font-bold text-[#07163F] tracking-tight">
+            Knowledge earned. Skills validated<span className="text-[#D4A500]">.</span>
           </h3>
         </div>
         <div className="flex items-center gap-2 text-xs font-mono text-slate-400">
@@ -210,7 +216,7 @@ export const CertificationCoverFlow: React.FC<CertificationCoverFlowProps> = ({
           <button
             onClick={handlePrev}
             aria-label="Previous Certificate"
-            className="absolute left-2 sm:left-4 z-40 w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-white/95 hover:bg-white text-slate-800 hover:text-amber-600 border border-slate-200/90 shadow-lg hover:shadow-xl flex items-center justify-center transition-all duration-200 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-500"
+            className="absolute left-2 sm:left-4 z-40 w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-white/95 hover:bg-white text-slate-800 hover:text-[#07163F] border border-slate-200/90 hover:border-[#D4A500] shadow-md hover:shadow-[0_8px_20px_-4px_rgba(212,165,0,0.15)] flex items-center justify-center transition-all duration-200 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-[#D4A500]"
           >
             <ChevronLeft className="w-5 h-5" />
           </button>
@@ -221,7 +227,7 @@ export const CertificationCoverFlow: React.FC<CertificationCoverFlowProps> = ({
           <button
             onClick={handleNext}
             aria-label="Next Certificate"
-            className="absolute right-2 sm:right-4 z-40 w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-white/95 hover:bg-white text-slate-800 hover:text-amber-600 border border-slate-200/90 shadow-lg hover:shadow-xl flex items-center justify-center transition-all duration-200 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-500"
+            className="absolute right-2 sm:right-4 z-40 w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-white/95 hover:bg-white text-slate-800 hover:text-[#07163F] border border-slate-200/90 hover:border-[#D4A500] shadow-md hover:shadow-[0_8px_20px_-4px_rgba(212,165,0,0.15)] flex items-center justify-center transition-all duration-200 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-[#D4A500]"
           >
             <ChevronRight className="w-5 h-5" />
           </button>
@@ -240,7 +246,7 @@ export const CertificationCoverFlow: React.FC<CertificationCoverFlowProps> = ({
                 aria-label={`Go to certificate ${idx + 1}`}
                 className={`transition-all duration-300 rounded-full cursor-pointer focus:outline-none ${
                   isActive
-                    ? 'w-6 h-2 bg-gradient-to-r from-amber-400 to-amber-500 shadow-sm'
+                    ? 'w-6 h-2 bg-[#D4A500] shadow-sm'
                     : 'w-2 h-2 bg-slate-200 hover:bg-slate-300'
                 }`}
               />
@@ -252,11 +258,11 @@ export const CertificationCoverFlow: React.FC<CertificationCoverFlowProps> = ({
       {/* VIEW ALL CERTIFICATES Action Button */}
       <button
         onClick={onOpenLibrary}
-        className="group inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-slate-900 hover:bg-slate-800 text-white font-mono text-xs font-bold tracking-wider uppercase transition-all duration-200 shadow-md hover:shadow-xl cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-500 hover:translate-y-[-1px]"
+        className="group inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#07163F] hover:bg-slate-900 text-white font-mono text-xs font-bold tracking-wider uppercase transition-all duration-200 shadow-md hover:shadow-xl cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-[#D4A500] hover:translate-y-[-1px]"
       >
-        <Award className="w-4 h-4 text-amber-400" />
+        <Award className="w-4 h-4 text-[#D4A500]" />
         <span>VIEW ALL CERTIFICATES</span>
-        <ArrowRight className="w-3.5 h-3.5 text-amber-400 transition-transform group-hover:translate-x-1" />
+        <ArrowRight className="w-3.5 h-3.5 text-[#D4A500] transition-transform group-hover:translate-x-1" />
       </button>
     </div>
   );
