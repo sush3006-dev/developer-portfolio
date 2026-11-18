@@ -229,7 +229,7 @@ export const Contact: React.FC = () => {
       ref={sectionRef}
       id="contact"
       style={{ backgroundColor: '#303030' }}
-      className="w-full min-h-[calc(100vh-40px)] bg-[#303030] py-12 lg:py-16 px-6 sm:px-10 lg:px-16 relative z-[70] overflow-hidden scroll-mt-6 text-white transition-all duration-300 flex flex-col justify-center"
+      className="w-full min-h-[calc(100vh-40px)] bg-[#303030] py-12 lg:py-16 px-6 sm:px-10 lg:px-16 relative overflow-hidden scroll-mt-6 text-white transition-all duration-300 flex flex-col justify-center"
     >
       {/* Subtle background noise texture */}
       <div

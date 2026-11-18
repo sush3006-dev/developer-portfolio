@@ -69,7 +69,7 @@ export const Hero: React.FC<HeroProps> = ({ activeSection = 'home' }) => {
     <section
       id="home"
       ref={heroRef}
-      className="relative z-[10] w-full min-h-[calc(100vh-40px)] hero-surface overflow-hidden flex flex-col justify-between p-4 sm:p-6 lg:p-10 transition-all duration-300 border-b border-slate-200/50"
+      className="relative w-full min-h-[calc(100vh-40px)] hero-surface overflow-hidden flex flex-col justify-between p-4 sm:p-6 lg:p-10 transition-all duration-300 border-b border-slate-200/50"
     >
       {/* =========================================================================
           LAYER 1: Full-Screen Character Video (Preserves Character Dimensions, Alignment & Ratio)

@@ -1,11 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Code2, Brain, TrendingUp, Landmark } from 'lucide-react';
 import { portfolioData } from '../../data/portfolio';
-import { useSectionTransition } from '../../hooks/useSectionTransition';
-
-gsap.registerPlugin(ScrollTrigger);
 
 interface AreaOfInterest {
   id: string;
@@ -44,170 +40,106 @@ const AREAS_OF_INTEREST: AreaOfInterest[] = [
 export const About: React.FC = () => {
   const { about } = portfolioData;
   const sectionRef = useRef<HTMLDivElement>(null);
-  const contentRef = useRef<HTMLDivElement>(null);
 
-  // Premium scroll-driven section transition (pinned receding as next section enters)
-  useSectionTransition(sectionRef, contentRef, {
-    isOutgoingPinned: true,
-    isIncomingAnimated: false,
-    pinDistance: '+=80%',
-  });
-
-  // Smooth, scroll-driven progressive transitions inspired by reference video
+  // Premium GSAP entrance animations with prefers-reduced-motion support
   useEffect(() => {
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const el = sectionRef.current;
-    if (!el) return;
+    if (prefersReducedMotion || !el) return;
 
-    if (prefersReducedMotion) {
-      gsap.set(
-        [
-          '.about-char-anim',
-          '.about-eyebrow-anim',
-          '.about-heading-anim',
-          '.about-paragraph-anim',
-          '.about-closing-anim',
-          '.about-interest-label-anim',
-          '.about-block-anim',
-        ],
-        { opacity: 1, y: 0, scale: 1 }
-      );
-      return;
-    }
+    let ctx: gsap.Context | null = null;
 
-    const ctx = gsap.context(() => {
-      // 1. Continuous physical float and depth parallax for character and editorial text
-      gsap.fromTo(
-        '.about-char-parallax',
-        { y: 35, scale: 0.98 },
-        {
-          y: -25,
-          scale: 1.02,
-          ease: 'none',
-          scrollTrigger: {
-            trigger: el,
-            start: 'top bottom',
-            end: 'bottom top',
-            scrub: 1,
-          },
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const [entry] = entries;
+        if (entry.isIntersecting && !ctx) {
+          ctx = gsap.context(() => {
+            const tl = gsap.timeline({ defaults: { ease: 'power2.out' } });
+
+            // 1. Character: Smooth fade-in, upward entrance, subtle scale
+            tl.fromTo(
+              '.about-char-anim',
+              { opacity: 0, scale: 0.95, y: 24 },
+              { opacity: 1, scale: 1, y: 0, duration: 0.9, ease: 'power2.out' }
+            )
+            // 2. ABOUT ME Eyebrow Label
+            .fromTo(
+              '.about-eyebrow-anim',
+              { opacity: 0, y: 12 },
+              { opacity: 1, y: 0, duration: 0.45, ease: 'power2.out' },
+              '-=0.7'
+            )
+            // 3. Main Heading: Fades and moves slightly upward
+            .fromTo(
+              '.about-heading-anim',
+              { opacity: 0, y: 16 },
+              { opacity: 1, y: 0, duration: 0.55, ease: 'power2.out' },
+              '-=0.35'
+            )
+            // 4. Paragraphs: Gentle staggered fade-in
+            .fromTo(
+              '.about-paragraph-anim',
+              { opacity: 0, y: 12 },
+              { opacity: 1, y: 0, duration: 0.45, stagger: 0.1, ease: 'power2.out' },
+              '-=0.35'
+            )
+            // 5. Closing statement appears
+            .fromTo(
+              '.about-closing-anim',
+              { opacity: 0, y: 10 },
+              { opacity: 1, y: 0, duration: 0.45, ease: 'power2.out' },
+              '-=0.2'
+            )
+            // 6. Areas of Interest label appears
+            .fromTo(
+              '.about-interest-label-anim',
+              { opacity: 0, y: 10 },
+              { opacity: 1, y: 0, duration: 0.4, ease: 'power2.out' },
+              '-=0.15'
+            )
+            // 7. Four cards enter with a slight stagger
+            .fromTo(
+              '.about-block-anim',
+              { opacity: 0, y: 14 },
+              { opacity: 1, y: 0, duration: 0.4, stagger: 0.08, ease: 'power2.out' },
+              '-=0.2'
+            );
+          }, el);
+
+          observer.disconnect();
         }
-      );
+      },
+      { threshold: 0.12 }
+    );
 
-      gsap.fromTo(
-        '.about-char-shadow',
-        { scaleX: 0.9, opacity: 0.15 },
-        {
-          scaleX: 1.1,
-          opacity: 0.08,
-          ease: 'none',
-          scrollTrigger: {
-            trigger: el,
-            start: 'top bottom',
-            end: 'bottom top',
-            scrub: 1,
-          },
-        }
-      );
+    observer.observe(el);
 
-      gsap.fromTo(
-        '.about-text-col',
-        { y: 25 },
-        {
-          y: -15,
-          ease: 'none',
-          scrollTrigger: {
-            trigger: el,
-            start: 'top bottom',
-            end: 'bottom top',
-            scrub: 1.2,
-          },
-        }
-      );
-
-      // 2. Reference-inspired card fanning & progressive settling on scroll
-      const fanConfigs = [
-        { rot: -5, x: -16, y: 32, scale: 0.95 },
-        { rot: -1.8, x: -5, y: 18, scale: 0.98 },
-        { rot: 1.8, x: 5, y: 18, scale: 0.98 },
-        { rot: 5, x: 16, y: 32, scale: 0.95 },
-      ];
-
-      const cards = gsap.utils.toArray<HTMLElement>('.about-card-fanned');
-      cards.forEach((card, idx) => {
-        const cfg = fanConfigs[idx] || { rot: 0, x: 0, y: 20, scale: 0.96 };
-        gsap.fromTo(
-          card,
-          {
-            rotation: cfg.rot,
-            x: cfg.x,
-            y: cfg.y,
-            scale: cfg.scale,
-            opacity: 0.85,
-            transformOrigin: '50% 120%',
-          },
-          {
-            rotation: 0,
-            x: 0,
-            y: 0,
-            scale: 1,
-            opacity: 1,
-            ease: 'power2.out',
-            scrollTrigger: {
-              trigger: '.about-interest-section',
-              start: 'top 92%',
-              end: 'top 48%',
-              scrub: 0.8,
-            },
-          }
-        );
-      });
-
-      // 3. Ambient lighting orbs parallax
-      gsap.fromTo(
-        '.about-ambient-orb',
-        { y: -35 },
-        {
-          y: 35,
-          ease: 'none',
-          scrollTrigger: {
-            trigger: el,
-            start: 'top bottom',
-            end: 'bottom top',
-            scrub: 1.2,
-          },
-        }
-      );
-    }, el);
-
-    return () => ctx.revert();
+    return () => {
+      observer.disconnect();
+      if (ctx) ctx.revert();
+    };
   }, []);
 
   return (
     <section
       ref={sectionRef}
       id="about"
-      style={{ perspective: '1200px' }}
-      className="w-full min-h-[calc(100vh-40px)] flex flex-col justify-center py-12 lg:py-16 px-6 sm:px-10 lg:px-16 relative z-[20] overflow-hidden scroll-mt-6 border-b border-slate-100/80 bg-[#FFFEFA]"
+      className="w-full min-h-[calc(100vh-40px)] flex flex-col justify-center py-12 lg:py-16 px-6 sm:px-10 lg:px-16 relative overflow-hidden scroll-mt-6 border-b border-slate-100/80 bg-[#FFFEFA]"
     >
-      <div
-        ref={contentRef}
-        className="section-transition-inner w-full flex flex-col justify-center will-change-transform"
-        style={{ transformOrigin: 'center top', transformStyle: 'preserve-3d' }}
-      >
-        {/* =========================================================================
-            GOLDEN AMBIENT LIGHTING (Matching Education Section)
+      {/* =========================================================================
+          GOLDEN AMBIENT LIGHTING (Matching Education Section)
           Soft diffused radial glow behind right-side text, feathered into warm-white
           ========================================================================= */}
       <div
-        className="about-ambient-orb absolute -top-24 -right-24 w-[480px] h-[480px] bg-[radial-gradient(circle_at_top_right,rgba(212,165,0,0.20)_0%,rgba(212,165,0,0.08)_45%,transparent_70%)] rounded-full blur-3xl pointer-events-none"
+        className="absolute -top-24 -right-24 w-[480px] h-[480px] bg-[radial-gradient(circle_at_top_right,rgba(212,165,0,0.20)_0%,rgba(212,165,0,0.08)_45%,transparent_70%)] rounded-full blur-3xl pointer-events-none"
         aria-hidden="true"
       />
       <div
-        className="about-ambient-orb absolute -top-24 -right-24 w-96 h-96 bg-gradient-to-bl from-amber-100/35 via-orange-50/10 to-transparent rounded-full blur-3xl pointer-events-none"
+        className="absolute -top-24 -right-24 w-96 h-96 bg-gradient-to-bl from-amber-100/35 via-orange-50/10 to-transparent rounded-full blur-3xl pointer-events-none"
         aria-hidden="true"
       />
       <div
-        className="about-ambient-orb absolute -bottom-28 -left-24 w-96 h-96 bg-gradient-to-tr from-slate-100/60 via-sky-50/20 to-transparent rounded-full blur-3xl pointer-events-none"
+        className="absolute -bottom-28 -left-24 w-96 h-96 bg-gradient-to-tr from-slate-100/60 via-sky-50/20 to-transparent rounded-full blur-3xl pointer-events-none"
         aria-hidden="true"
       />
 
@@ -219,7 +151,7 @@ export const About: React.FC = () => {
         
         {/* LEFT COLUMN: ORIGINAL 3D CHARACTER */}
         <div className="about-char-anim relative shrink-0 flex flex-col items-center justify-center w-full sm:w-52 md:w-60 lg:w-72 self-center py-2">
-          <div className="about-char-parallax relative w-full flex items-center justify-center">
+          <div className="relative w-full flex items-center justify-center">
             <img
               src={about.characterImage || '/assets/aistudio/about_character_clean.png'}
               alt="Developer Character"
@@ -232,13 +164,13 @@ export const About: React.FC = () => {
           </div>
           {/* Subtle soft grounding shadow under character feet */}
           <div
-            className="about-char-shadow w-28 sm:w-36 md:w-44 h-3.5 bg-slate-900/10 rounded-full blur-[4px] -mt-2 pointer-events-none"
+            className="w-28 sm:w-36 md:w-44 h-3.5 bg-slate-900/10 rounded-full blur-[4px] -mt-2 pointer-events-none"
             aria-hidden="true"
           />
         </div>
 
         {/* RIGHT COLUMN: INTRODUCTION CONTENT */}
-        <div className="about-text-col flex-1 w-full flex flex-col justify-center text-left md:pl-2">
+        <div className="flex-1 w-full flex flex-col justify-center text-left md:pl-2">
           
           {/* Eyebrow Label with Golden Bullet matching Education Section */}
           <div className="about-eyebrow-anim flex items-center gap-2 mb-2.5">
@@ -285,7 +217,7 @@ export const About: React.FC = () => {
           1 x 4 Horizontal Grid on Desktop (4 equal cards in one row)
           Independent interactive hover states with golden highlights
           ========================================================================= */}
-      <div className="about-interest-section relative z-10 mt-8 sm:mt-10 pt-5 sm:pt-6 border-t border-slate-100/90 w-full">
+      <div className="relative z-10 mt-8 sm:mt-10 pt-5 sm:pt-6 border-t border-slate-100/90 w-full">
         
         {/* Section Eyebrow */}
         <div className="about-interest-label-anim flex items-center gap-2 mb-3.5">
@@ -306,7 +238,7 @@ export const About: React.FC = () => {
                 tabIndex={0}
                 role="region"
                 aria-label={item.label}
-                className="about-card-fanned group relative py-3.5 px-4 rounded-2xl bg-slate-50/85 hover:bg-white border border-slate-200/80 hover:border-[#D4A500] flex items-center justify-center gap-3 text-center cursor-default shadow-[0_1px_3px_rgba(15,23,42,0.03)] hover:shadow-[0_8px_20px_-4px_rgba(212,165,0,0.12),0_4px_8px_-2px_rgba(15,23,42,0.04)] transition-all duration-300 ease-out hover:-translate-y-1 active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D4A500]/50"
+                className="about-block-anim group relative py-3.5 px-4 rounded-2xl bg-slate-50/85 hover:bg-white border border-slate-200/80 hover:border-[#D4A500] flex items-center justify-center gap-3 text-center cursor-default shadow-[0_1px_3px_rgba(15,23,42,0.03)] hover:shadow-[0_8px_20px_-4px_rgba(212,165,0,0.12),0_4px_8px_-2px_rgba(15,23,42,0.04)] transition-all duration-300 ease-out hover:-translate-y-1 active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D4A500]/50"
               >
                 {/* Icon Container: Transitions to subtle pale-gold with golden border on hover */}
                 <div className="w-8 h-8 rounded-xl bg-white group-hover:bg-amber-50/90 border border-slate-200/70 group-hover:border-[#D4A500]/40 flex items-center justify-center text-slate-700 group-hover:text-[#D4A500] shadow-sm group-hover:shadow-[0_0_12px_rgba(212,165,0,0.22)] shrink-0 transition-all duration-300 ease-out">
@@ -321,7 +253,6 @@ export const About: React.FC = () => {
             );
           })}
         </div>
-      </div>
       </div>
       </div>
     </section>
