@@ -1,10 +1,10 @@
 # Sushant Kadam — Developer Portfolio
 
+🌐 **[VISIT MY LIVE PORTFOLIO](https://developer-portfolio-ufc8.vercel.app)**
+
 A modern, interactive personal portfolio website showcasing full-stack projects, computer engineering expertise, and financial technology explorations.
 
 Built with **React 19**, **Vite 8**, **Tailwind CSS v4**, **Three.js**, **GSAP**, **Motion**, and **Resend**.
-
----
 
 ## ✨ Features
 
@@ -16,7 +16,6 @@ Built with **React 19**, **Vite 8**, **Tailwind CSS v4**, **Three.js**, **GSAP**
 - **Functional Contact Form**: Direct server-side email dispatch powered by the **Resend API SDK** with honeypot spam protection, server-side validation, rate limiting, and dynamic `Reply-To` headers.
 
 ---
-🌐 Live Website: developer-portfolio-ufc8.vercel.app
 
 ## 🛠️ Tech Stack
 
