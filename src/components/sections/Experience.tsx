@@ -532,10 +532,10 @@ export const Experience: React.FC = () => {
                       {/* Footer: Verified Experience Indicator */}
                       <div className="pt-2.5 border-t border-slate-100 flex items-center justify-between text-[10px] font-mono text-slate-400">
                         <span className="flex items-center gap-1.5 text-slate-600 font-medium">
-                          <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500" />
-                          Verified Roadmap Milestone
+                          <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500 shrink-0" />
+                          <span>{item.footerLabel || 'Verified Roadmap Milestone'}</span>
                         </span>
-                        <span className="text-amber-500 font-bold">#{item.number}</span>
+                        <span className="text-amber-500 font-bold shrink-0">#{item.number}</span>
                       </div>
                     </div>
                   )}

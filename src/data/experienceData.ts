@@ -10,6 +10,7 @@ export interface ExperienceCardItem {
   role: string;
   organization?: string;
   description: string;
+  footerLabel?: string;
 }
 
 export const EXPERIENCE_ITEMS: ExperienceCardItem[] = [
@@ -23,9 +24,10 @@ export const EXPERIENCE_ITEMS: ExperienceCardItem[] = [
       variant: 'amber',
     },
     organization: 'GenXCode',
-    role: 'Community Member / Auditor',
+    role: 'Former Community Member',
     description:
-      'Active community member and auditor at GenXCode, participating in developer discussions, code reviews, and peer knowledge-sharing to foster collaborative problem solving.',
+      'Previously contributed to the GenXCode developer community through technical discussions, collaborative problem-solving, code reviews, and knowledge exchange—strengthening my engineering perspective through collaboration with fellow developers.',
+    footerLabel: 'FORMER COMMUNITY AFFILIATION',
   },
   {
     id: 'leadership',
